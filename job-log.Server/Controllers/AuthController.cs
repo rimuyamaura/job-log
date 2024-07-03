@@ -5,7 +5,7 @@ namespace job_log.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JobApplicationsController : ControllerBase
+    public class AuthController : ControllerBase
     {
     }
 }

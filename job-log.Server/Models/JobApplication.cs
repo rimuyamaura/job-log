@@ -7,7 +7,6 @@ namespace job_log.Server.Models
     {
         [Key]
         public long Id { get; set; }
-        public string User { get; set; }
         public string Company { get; set; }
         public string Position { get; set; }
         public string Status { get; set; }
@@ -19,5 +18,9 @@ namespace job_log.Server.Models
         public string? Description { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public User User { get; set; }
     }
 }

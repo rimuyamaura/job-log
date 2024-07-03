@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using job_log.Server.Context;
 
@@ -11,9 +12,11 @@ using job_log.Server.Context;
 namespace job_log.Server.Migrations
 {
     [DbContext(typeof(JobLogDBContext))]
-    partial class JobLogDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240703053657_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
