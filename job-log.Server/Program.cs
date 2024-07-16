@@ -1,6 +1,8 @@
 using DotNetEnv;
 using job_log.Server.Core.Data;
+using job_log.Server.Core.Interfaces;
 using job_log.Server.Core.Models;
+using job_log.Server.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,11 +17,15 @@ Env.Load();
 // Add services to the container.
 builder.Services.AddControllers(); //maybe add enum support for job status
 
-
+// Add ApplicationDbContext
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
     options.UseSqlServer(Environment.GetEnvironmentVariable("CONNECTION_STRING"));
 });
+
+// Dependency Injection
+builder.Services.AddScoped<IJobApplicationService, JobApplicationService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 // Add and configure Identity
 builder.Services

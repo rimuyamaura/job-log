@@ -8,12 +8,12 @@ namespace job_log.Server.Core.Interfaces
     {
         Task<IEnumerable<GetJobApplicationDto>> GetMyJobApplicationsAsync(ClaimsPrincipal user);
 
-        Task<GetJobApplicationDto> GetJobApplicationByIdAsync(ClaimsPrincipal user, int id);
+        Task<GetJobApplicationDto?> GetJobApplicationByIdAsync(ClaimsPrincipal user, int id);
 
 
         Task<GetJobApplicationDto> CreateJobApplicationAsync(ClaimsPrincipal user, CreateJobApplicationDto createJobApplicationDto);
 
-        Task<GetJobApplicationDto> UpdateJobApplicationAsync(ClaimsPrincipal user, int id, JobApplication jobApplication);
+        Task<GetJobApplicationDto> UpdateJobApplicationAsync(ClaimsPrincipal user, int id, CreateJobApplicationDto updatedApplicationDto);
 
         Task<bool> DeleteJobApplicationAsync(ClaimsPrincipal user, int id);
 
