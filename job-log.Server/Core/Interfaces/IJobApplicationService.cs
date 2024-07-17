@@ -6,7 +6,7 @@ namespace job_log.Server.Core.Interfaces
 {
     public interface IJobApplicationService
     {
-        Task<IEnumerable<GetJobApplicationDto>> GetMyJobApplicationsAsync(ClaimsPrincipal user);
+        Task<IEnumerable<GetJobApplicationDto>> GetJobApplicationsAsync(ClaimsPrincipal user);
 
         Task<GetJobApplicationDto?> GetJobApplicationByIdAsync(ClaimsPrincipal user, int id);
 

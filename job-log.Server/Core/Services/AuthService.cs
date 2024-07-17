@@ -18,6 +18,7 @@ namespace job_log.Server.Core.Services
             _userManager = userManager;
         }
 
+
         public async Task<bool> RegisterAsync(RegisterDto registerDto)
         {
             var isUserExist = await _userManager.FindByNameAsync(registerDto.UserName);

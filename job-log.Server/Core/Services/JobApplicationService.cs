@@ -16,7 +16,7 @@ namespace job_log.Server.Core.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<GetJobApplicationDto>> GetMyJobApplicationsAsync(ClaimsPrincipal user)
+        public async Task<IEnumerable<GetJobApplicationDto>> GetJobApplicationsAsync(ClaimsPrincipal user)
         {
             var currentUser = user.Identity.Name;
 
