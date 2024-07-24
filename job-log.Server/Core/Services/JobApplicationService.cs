@@ -93,22 +93,6 @@ namespace job_log.Server.Core.Services
             };
         }
 
-        public async Task<bool> DeleteJobApplicationAsync(ClaimsPrincipal user, int id)
-        {
-            var currentUser = user.Identity.Name;
-
-            var jobApplication = await _context.JobApplications.FirstOrDefaultAsync(j => j.UserName == currentUser && j.Id == id);
-            if (jobApplication == null)
-            {
-                return false;
-            }
-
-            _context.JobApplications.Remove(jobApplication);
-            await _context.SaveChangesAsync();
-
-            return true; // maybe create a general response dto for this
-        }
-
         public async Task<GetJobApplicationDto> UpdateJobApplicationAsync(ClaimsPrincipal user, int id, CreateJobApplicationDto updatedApplicationDto)
         {
             var currentUser = user.Identity.Name;
@@ -141,6 +125,32 @@ namespace job_log.Server.Core.Services
                 Url = jobApplication.Url,
                 Notes = jobApplication.Notes,
                 UpdatedAt = jobApplication.UpdatedAt
+            };
+        }
+
+        public async Task<ServiceResponseDto> DeleteJobApplicationAsync(ClaimsPrincipal user, int id)
+        {
+            var currentUser = user.Identity.Name;
+
+            var jobApplication = await _context.JobApplications.FirstOrDefaultAsync(j => j.UserName == currentUser && j.Id == id);
+            if (jobApplication == null)
+            {
+                return new ServiceResponseDto
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "Job application not found."
+                };
+            }
+
+            _context.JobApplications.Remove(jobApplication);
+            await _context.SaveChangesAsync();
+
+            return new ServiceResponseDto
+            {
+                IsSuccess = true,
+                StatusCode = 200,
+                Message = "Job application deleted successfully."
             };
         }
     }

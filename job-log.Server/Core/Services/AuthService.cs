@@ -12,19 +12,31 @@ namespace job_log.Server.Core.Services
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
+        private readonly string _jwtSecret;
+        private readonly string _jwtIssuer;
+        private readonly string _jwtAudience;
 
         public AuthService(UserManager<User> userManager)
         {
             _userManager = userManager;
+            // cache env variables to avoid multiple fetch calls
+            _jwtSecret = Environment.GetEnvironmentVariable("JWT_SECRET");
+            _jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER");
+            _jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE");
         }
 
 
-        public async Task<bool> RegisterAsync(RegisterDto registerDto)
+        public async Task<ServiceResponseDto> RegisterAsync(RegisterDto registerDto)
         {
             var isUserExist = await _userManager.FindByNameAsync(registerDto.UserName);
             if (isUserExist != null)
             {
-                throw new Exception("User already exists"); // maybe implement custom exceptions
+                return new ServiceResponseDto
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "User already exists."
+                };
             }
 
             var newUser = new User
@@ -39,32 +51,59 @@ namespace job_log.Server.Core.Services
             var result = await _userManager.CreateAsync(newUser, registerDto.Password);
             if (!result.Succeeded)
             {
-                throw new Exception("User creation failed! Please check user details and try again.");
+                var errors = string.Join(" ", result.Errors.Select(e => $"#{e.Description}"));
+                return new ServiceResponseDto()
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = $"User creation failed: {errors}"
+                };
             }
 
-            return true;
+            return new ServiceResponseDto()
+            {
+                IsSuccess = true,
+                StatusCode = 201,
+                Message = "User created successfully"
+            };
         }
 
-        public async Task<AuthResponseDto> LoginAsync(LoginDto loginDto)
+        public async Task<ServiceResponseDto> LoginAsync(LoginDto loginDto)
         {
             var user = await _userManager.FindByNameAsync(loginDto.UserName);
             if (user == null)
             {
-                throw new Exception("User not found");
+                return new ServiceResponseDto
+                {
+                    IsSuccess = false,
+                    StatusCode = 404,
+                    Message = "User not found."
+                };
             }
 
             var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginDto.Password);
             if (!isPasswordValid)
             {
-                throw new Exception("Invalid password");
+                return new ServiceResponseDto
+                {
+                    IsSuccess = false,
+                    StatusCode = 400,
+                    Message = "Invalid password."
+                };
             }
 
             var token = await GenerateJWTTokenAsync(user);
 
-            return new AuthResponseDto
+            return new ServiceResponseDto
             {
-                UserName = user.UserName,
-                Token = token
+                IsSuccess = true,
+                StatusCode = 200,
+                Message = "Login successful",
+                AuthResponse = new AuthResponseDto
+                {
+                    UserName = user.UserName,
+                    Token = token
+                }
             };
         }
 
@@ -76,12 +115,12 @@ namespace job_log.Server.Core.Services
                 new Claim(ClaimTypes.Name, user.UserName),
             };
 
-            var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET")));
+            var secret = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSecret));
             var signingCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: Environment.GetEnvironmentVariable("JWT_ISSUER"),
-                audience: Environment.GetEnvironmentVariable("JWT_AUDIENCE"),
+                issuer: _jwtIssuer,
+                audience: _jwtAudience,
                 notBefore: DateTime.Now,
                 expires: DateTime.Now.AddHours(3),
                 claims: claims,

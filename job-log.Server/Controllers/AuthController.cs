@@ -20,19 +20,20 @@ namespace job_log.Server.Controllers
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto registerDto)
         {
+
             var result = await _authService.RegisterAsync(registerDto);
-            return Ok(result);
+            return StatusCode(result.StatusCode, result.Message);
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<AuthResponseDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult> Login(LoginDto loginDto)
         {
-            var user = await _authService.LoginAsync(loginDto);
-            if (user == null)
+            var result = await _authService.LoginAsync(loginDto);
+            if (!result.IsSuccess)
             {
-                return Unauthorized("Invalid email or password");
+                return StatusCode(result.StatusCode, result.Message);
             }
-            return Ok(user);
+            return Ok(result.AuthResponse);
         }
     }
 }

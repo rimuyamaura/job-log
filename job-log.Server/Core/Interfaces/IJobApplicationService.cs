@@ -15,7 +15,7 @@ namespace job_log.Server.Core.Interfaces
 
         Task<GetJobApplicationDto> UpdateJobApplicationAsync(ClaimsPrincipal user, int id, CreateJobApplicationDto updatedApplicationDto);
 
-        Task<bool> DeleteJobApplicationAsync(ClaimsPrincipal user, int id);
+        Task<ServiceResponseDto> DeleteJobApplicationAsync(ClaimsPrincipal user, int id);
 
         // Add feature to search job applications
         // Task<IEnumerable<GetJobApplicationDto>> SearchJobApplicationsAsync(ClaimsPrincipal user, string searchTerm);

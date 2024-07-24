@@ -40,26 +40,34 @@ namespace job_log.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<GetJobApplicationDto>> CreateJobApplication(CreateJobApplicationDto createJobApplicationDto)
         {
+            // Check if input is valid
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var jobApplication = await _jobApplicationService.CreateJobApplicationAsync(User, createJobApplicationDto);
             return Ok(jobApplication);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<ActionResult<GetJobApplicationDto>> UpdateJobApplication(int id, CreateJobApplicationDto updatedApplicationDto)
         {
+            // Check if input is valid
+            if (!ModelState.IsValid)  
+            {
+                return BadRequest(ModelState);
+            }
+
             var jobApplication = await _jobApplicationService.UpdateJobApplicationAsync(User, id, updatedApplicationDto);
             return Ok(jobApplication);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<ActionResult> DeleteJobApplication(int id)
         {
             var result = await _jobApplicationService.DeleteJobApplicationAsync(User, id);
-            if (!result)
-            {
-                return NotFound("Job application not found");
-            }
-            return Ok(result);
+            return StatusCode(result.StatusCode, result.Message);
         }
     }
         

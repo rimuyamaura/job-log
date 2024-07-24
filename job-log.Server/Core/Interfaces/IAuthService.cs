@@ -6,7 +6,7 @@ namespace job_log.Server.Core.Interfaces
 {
     public interface IAuthService
     {
-        Task<bool> RegisterAsync(RegisterDto registerDto);
-        Task<AuthResponseDto> LoginAsync(LoginDto loginDto);
+        Task<ServiceResponseDto> RegisterAsync(RegisterDto registerDto);
+        Task<ServiceResponseDto> LoginAsync(LoginDto loginDto);
     }
 }
