@@ -1,23 +1,33 @@
+import { useMemo } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Container } from '@mui/material';
-import Login from './pages/LoginPage.tsx';
-import Signup from './pages/SignupPage.tsx';
-import JobApplications from './pages/JobApplicationsPage.tsx';
-import AddJobApplication from './components/AddJobApplication.tsx';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+import {
+  LoginPage,
+  SignupPage,
+  JobApplicationsPage,
+  AddJobApplicationPage,
+  HomePage,
+} from './pages';
+import { themeSettings } from './assets/theme.ts';
 
 function App() {
+  const theme = useMemo(() => createTheme(themeSettings), []);
   return (
-    <Router>
-      <Container>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/signup' element={<Signup />} />
-          <Route path='/home' element={<JobApplications />} />
-          <Route path='/add-job-application' element={<AddJobApplication />} />
-        </Routes>
-      </Container>
-    </Router>
+    <div className='App'>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Routes>
+            <Route path='/' element={<LoginPage />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<SignupPage />} />
+            <Route path='/jobs' element={<JobApplicationsPage />} />
+            <Route path='/add' element={<AddJobApplicationPage />} />
+            <Route path='home' element={<HomePage />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
+    </div>
   );
 }
 

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Button,
+  Container,
   CssBaseline,
   TextField,
   Link,
@@ -10,11 +11,6 @@ import {
   Paper,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 const Signup = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,7 +23,7 @@ const Signup = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <Container maxWidth='lg'>
       <Grid container component='main' sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -58,7 +54,7 @@ const Signup = () => {
             }}
           >
             <Typography component='h1' variant='h5'>
-              Sign up
+              Sign Up
             </Typography>
             <Box
               component='form'
@@ -129,7 +125,7 @@ const Signup = () => {
                 variant='contained'
                 sx={{ mt: 3, mb: 2 }}
               >
-                Sign In
+                Create Account
               </Button>
               <Box
                 sx={{
@@ -138,14 +134,14 @@ const Signup = () => {
                 }}
               >
                 <Link component={RouterLink} to='/login' variant='body2'>
-                  {'Already have an account? Sign In'}
+                  {'Already have an account? Log In'}
                 </Link>
               </Box>
             </Box>
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 };
 

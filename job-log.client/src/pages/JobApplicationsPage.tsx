@@ -48,6 +48,21 @@ const JobApplications = () => {
                 <Typography variant='body1'>company</Typography>
                 <Typography variant='body2'>status</Typography>
               </Box>
+              <Box p={2}>
+                <Typography variant='h6'>POSITION</Typography>
+                <Typography variant='body1'>company</Typography>
+                <Typography variant='body2'>status</Typography>
+              </Box>
+              <Box p={2}>
+                <Typography variant='h6'>POSITION</Typography>
+                <Typography variant='body1'>company</Typography>
+                <Typography variant='body2'>status</Typography>
+              </Box>
+              <Box p={2}>
+                <Typography variant='h6'>POSITION</Typography>
+                <Typography variant='body1'>company</Typography>
+                <Typography variant='body2'>status</Typography>
+              </Box>
             </Paper>
           </Grid>
         </Grid>

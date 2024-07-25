@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   Button,
   CssBaseline,
+  Container,
   TextField,
   Link,
   Grid,
@@ -10,11 +11,6 @@ import {
   Paper,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
 
 const Login = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -27,7 +23,7 @@ const Login = () => {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <Container maxWidth='lg'>
       <Grid container component='main' sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
@@ -58,7 +54,7 @@ const Login = () => {
             }}
           >
             <Typography component='h1' variant='h5'>
-              Sign in
+              Log In
             </Typography>
             <Box
               component='form'
@@ -108,7 +104,7 @@ const Login = () => {
           </Box>
         </Grid>
       </Grid>
-    </ThemeProvider>
+    </Container>
   );
 };
 
