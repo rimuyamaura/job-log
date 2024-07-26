@@ -80,7 +80,6 @@ const Signup = () => {
                 label='Email Address'
                 name='email'
                 autoComplete='email'
-                autoFocus
               />
               <Grid container columnSpacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -92,7 +91,6 @@ const Signup = () => {
                     label='First Name'
                     name='firstname'
                     autoComplete='firstname'
-                    autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -104,7 +102,6 @@ const Signup = () => {
                     label='Last Name'
                     name='lastname'
                     autoComplete='lastname'
-                    autoFocus
                   />
                 </Grid>
               </Grid>
