@@ -11,15 +11,22 @@ import {
   Paper,
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from '../features/userSlice';
+import { RootState, AppDispatch } from '../store'; // Specify types
 
 const Login = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error } = useSelector((state: RootState) => state.userState);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const username = data.get('username') as string;
+    const password = data.get('password') as string;
+
+    // Dispatch the loginUser action
+    dispatch(loginUser({ username, password }));
   };
 
   return (
@@ -34,7 +41,6 @@ const Login = () => {
           sx={{
             backgroundImage:
               'url("/static/images/templates/templates-images/sign-in-side-bg.png")',
-
             backgroundColor: (t) =>
               t.palette.mode === 'light'
                 ? t.palette.grey[50]
@@ -82,6 +88,8 @@ const Login = () => {
                 id='password'
                 autoComplete='current-password'
               />
+              {loading && <Typography>Loading...</Typography>}
+              {error && <Typography color='error'>{error}</Typography>}
               <Button
                 type='submit'
                 fullWidth
