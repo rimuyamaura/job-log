@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction, ThunkAction } from '@reduxjs/toolkit';
-// import axios from 'axios';
 import { RootState } from '../store';
-
 import axiosInstance from './axiosInstance';
 
 const userSlice = createSlice({
@@ -54,14 +52,13 @@ export const loginUser =
     dispatch(loginStart());
     try {
       const response = await axiosInstance.post('/Auth/login', credentials);
-      // console.log(response);
       const { userName, token } = response.data;
       localStorage.setItem('token', token); // Store token in localStorage
       dispatch(loginSuccess({ userName, token }));
     } catch (error: any) {
       const errorMessage =
         error.response.data || // Error message from server
-        'Login failed'; // Backup error message
+        'Login failed'; // Alternative error message
       dispatch(loginFail(errorMessage));
     }
   };

@@ -95,7 +95,7 @@ const Login = () => {
                 autoFocus
                 value={userName}
                 onChange={handleUserNameChange}
-                error={!userName}
+                // error={!userName}
                 helperText={!userName ? 'Username is required' : ''}
               />
               <TextField
@@ -109,7 +109,7 @@ const Login = () => {
                 autoComplete='current-password'
                 value={password}
                 onChange={handlePasswordChange}
-                error={!password}
+                // error={!password}
                 helperText={!password ? 'Password is required' : ''}
               />
               {error && <Typography color='error'>{error}</Typography>}
@@ -120,7 +120,7 @@ const Login = () => {
                 sx={{ mt: 3, mb: 2 }}
                 disabled={!userName || !password || loading}
               >
-                {loading ? 'Loading...' : 'Log In'}
+                {loading ? 'Loading...' : 'Sign In'}
               </Button>
               <Box
                 sx={{
