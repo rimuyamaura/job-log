@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Theme } from '@mui/material/styles';
+import { LogoutBtn } from '../components';
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -29,7 +30,6 @@ const Navbar = () => {
     { title: 'Dashboard', url: '/home' },
     { title: 'Statistics', url: '' },
     { title: 'Profile', url: '/profile' },
-    { title: 'Logout', url: '/login' },
   ];
 
   const drawer = (
@@ -115,6 +115,7 @@ const Navbar = () => {
                 {item.title}
               </Button>
             ))}
+            <LogoutBtn />
           </Box>
         </Drawer>
       )}

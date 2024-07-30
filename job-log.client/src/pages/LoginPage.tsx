@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   CssBaseline,
@@ -10,23 +10,39 @@ import {
   Typography,
   Paper,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../features/userSlice';
 import { RootState, AppDispatch } from '../store'; // Specify types
 
 const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, error } = useSelector((state: RootState) => state.userState);
+  const { loading, error, isAuthenticated } = useSelector(
+    (state: RootState) => state.userState
+  );
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState('');
+  const [password, setPassword] = useState('');
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log('Redirected to home page');
+      navigate('/home');
+    } else {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    const username = data.get('username') as string;
-    const password = data.get('password') as string;
+    dispatch(loginUser({ userName, password }));
+  };
 
-    // Dispatch the loginUser action
-    dispatch(loginUser({ username, password }));
+  const handleUserNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
+  };
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
   };
 
   return (
@@ -77,6 +93,10 @@ const Login = () => {
                 name='username'
                 autoComplete='username'
                 autoFocus
+                value={userName}
+                onChange={handleUserNameChange}
+                error={!userName}
+                helperText={!userName ? 'Username is required' : ''}
               />
               <TextField
                 margin='normal'
@@ -87,16 +107,20 @@ const Login = () => {
                 type='password'
                 id='password'
                 autoComplete='current-password'
+                value={password}
+                onChange={handlePasswordChange}
+                error={!password}
+                helperText={!password ? 'Password is required' : ''}
               />
-              {loading && <Typography>Loading...</Typography>}
               {error && <Typography color='error'>{error}</Typography>}
               <Button
                 type='submit'
                 fullWidth
                 variant='contained'
                 sx={{ mt: 3, mb: 2 }}
+                disabled={!userName || !password || loading}
               >
-                Sign In
+                {loading ? 'Loading...' : 'Log In'}
               </Button>
               <Box
                 sx={{

@@ -20,10 +20,10 @@ const userSlice = createSlice({
     },
     loginSuccess: (
       state,
-      action: PayloadAction<{ username: string; token: string }>
+      action: PayloadAction<{ userName: string; token: string }>
     ) => {
       state.isAuthenticated = true;
-      state.username = action.payload.username;
+      state.username = action.payload.userName;
       state.token = action.payload.token;
       state.loading = false;
       state.error = null;
@@ -47,26 +47,36 @@ export default userSlice.reducer;
 // Define async thunks
 export const loginUser =
   (credentials: {
-    username: string;
+    userName: string;
     password: string;
   }): ThunkAction<void, RootState, unknown, PayloadAction<any>> =>
   async (dispatch) => {
     dispatch(loginStart());
     try {
-      const response = await axiosInstance.post('/api/Auth/login', credentials);
-      const { username, token } = response.data;
+      const response = await axiosInstance.post('/Auth/login', credentials);
+      // console.log(response);
+      const { userName, token } = response.data;
       localStorage.setItem('token', token); // Store token in localStorage
-      dispatch(loginSuccess({ username, token }));
+      dispatch(loginSuccess({ userName, token }));
     } catch (error: any) {
       const errorMessage =
-        (error as { response?: { data: { message: string } } })?.response?.data
-          ?.message || 'Login failed';
+        error.response.data || // Error message from server
+        'Login failed'; // Backup error message
       dispatch(loginFail(errorMessage));
     }
   };
 
 export const logoutUser =
-  (): ThunkAction<void, RootState, unknown, any> => (dispatch) => {
+  (): ThunkAction<void, RootState, unknown, any> => async (dispatch) => {
     localStorage.removeItem('token');
     dispatch(logout());
+    console.log('Logged out');
+
+    // Confirm the token removal
+    const token = localStorage.getItem('token');
+    if (token) {
+      console.error('Failed to remove token from localStorage');
+    } else {
+      console.log('Token successfully removed');
+    }
   };
