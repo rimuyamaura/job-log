@@ -11,14 +11,13 @@ import {
   Paper,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../features/userSlice';
-import { RootState, AppDispatch } from '../store'; // Specify types
+import { useAppDispatch, useAppSelector } from '../store';
 
 const Login = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { loading, error, isAuthenticated } = useSelector(
-    (state: RootState) => state.userState
+  const dispatch = useAppDispatch();
+  const { loading, error, isAuthenticated } = useAppSelector(
+    (state) => state.userState
   );
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');

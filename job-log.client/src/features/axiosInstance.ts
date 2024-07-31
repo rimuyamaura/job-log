@@ -7,7 +7,14 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use(
-  (response) => response,
+  // Attach JWT token to requests for api authentication
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
   (error) =>
     Promise.reject(
       (error.response && error.response) || 'General Axios Error has occurred'

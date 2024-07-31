@@ -24,83 +24,74 @@ const JobApplications = () => {
     null
   );
   const [modalOpen, setModalOpen] = useState(false);
-  const navigate = useNavigate();
   const { isAuthenticated } = useSelector(
     (state: RootState) => state.userState
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!isAuthenticated) {
       // Redirect to login page if user is not authenticated
       navigate('/login');
     } else {
-      // Fetch job applications for user, EXAMPLE DATA
-      const fetchApplications = () => {
-        const exampleApplications = [
-          {
-            id: 1,
-            position: 'Software Engineer',
-            company: 'Tech Innovators Inc.',
-            status: Status.Applied,
-            location: 'San Francisco, CA',
-            salary: '$120,000',
-            url: 'https://www.techinnovators.com',
-            notes: 'This is a note about the job application.',
-            updatedAt: '2022-01-01',
-          },
-          {
-            id: 2,
-            position: 'Product Manager',
-            company: 'Creative Solutions Ltd.',
-            status: Status.Interviewing,
-            location: 'New York, NY',
-            salary: '$130,000',
-            url: 'https://www.creativesolutions.com',
-            notes:
-              'This is a note about the job application. It could include information about the company, the role, or the interview process.',
-            updatedAt: '2022-01-02',
-          },
-          {
-            id: 3,
-            position: 'UX Designer',
-            company: 'Design Co.',
-            status: Status.Rejected,
-            location: 'Los Angeles, CA',
-            salary: '$110,000',
-            url: 'https://www.designco.com',
-            notes:
-              'This is a note about the job application. It could include information about the company, the role, or the interview process.',
-            updatedAt: '2022-01-03',
-          },
-          {
-            id: 4,
-            position: 'Data Analyst',
-            company: 'Data Insights',
-            status: Status.OfferReceived,
-            location: 'Chicago, IL',
-            salary: '$100,000',
-            url: 'https://www.datainsights.com',
-            notes:
-              'This is a note about the job application. It could include information about the company, the role, or the interview process.',
-            updatedAt: '2022-01-04',
-          },
-        ];
-        setApplications(exampleApplications);
-      };
-      fetchApplications();
+      // const fetchApplications = () => {
+      //   const exampleApplications = [
+      //     {
+      //       id: 1,
+      //       position: 'Software Engineer',
+      //       company: 'Tech Innovators Inc.',
+      //       status: Status.Applied,
+      //       location: 'San Francisco, CA',
+      //       salary: '$120,000',
+      //       url: 'https://www.techinnovators.com',
+      //       notes: 'This is a note about the job application.',
+      //       updatedAt: '2022-01-01',
+      //     },
+      //     {
+      //       id: 2,
+      //       position: 'Product Manager',
+      //       company: 'Creative Solutions Ltd.',
+      //       status: Status.Interviewing,
+      //       location: 'New York, NY',
+      //       salary: '$130,000',
+      //       url: 'https://www.creativesolutions.com',
+      //       notes:
+      //         'This is a note about the job application. It could include information about the company, the role, or the interview process.',
+      //       updatedAt: '2022-01-02',
+      //     },
+      //     {
+      //       id: 3,
+      //       position: 'UX Designer',
+      //       company: 'Design Co.',
+      //       status: Status.Rejected,
+      //       location: 'Los Angeles, CA',
+      //       salary: '$110,000',
+      //       url: 'https://www.designco.com',
+      //       notes:
+      //         'This is a note about the job application. It could include information about the company, the role, or the interview process.',
+      //       updatedAt: '2022-01-03',
+      //     },
+      //     {
+      //       id: 4,
+      //       position: 'Data Analyst',
+      //       company: 'Data Insights',
+      //       status: Status.OfferReceived,
+      //       location: 'Chicago, IL',
+      //       salary: '$100,000',
+      //       url: 'https://www.datainsights.com',
+      //       notes:
+      //         'This is a note about the job application. It could include information about the company, the role, or the interview process.',
+      //       updatedAt: '2022-01-04',
+      //     },
+      //   ];
+      //   setApplications(exampleApplications);
+      // };
+      // fetchApplications();
     }
   }, [isAuthenticated, navigate]);
 
   const handleSave = (application: any) => {
-    if (application.id) {
-      // Edit existing application
-      setApplications((prev) =>
-        prev.map((app) => (app.id === application.id ? application : app))
-      );
-    } else {
-      // Add new application
-      setApplications((prev) => [...prev, application]);
-    }
+    // TODO: Implement save functionality
   };
 
   const handleOpenModal = (application: any) => {
