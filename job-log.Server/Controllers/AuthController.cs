@@ -1,5 +1,6 @@
 ﻿using job_log.Server.Core.Dtos;
 using job_log.Server.Core.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,5 +36,18 @@ namespace job_log.Server.Controllers
             }
             return Ok(result.AuthResponse);
         }
+        
+        [HttpGet("user")]
+        [Authorize]
+        public async Task<ActionResult<UserInfoDto>> GetUser()
+        {
+            var user = await _authService.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            return Ok(user);
+        }
+
     }
 }

@@ -8,5 +8,6 @@ namespace job_log.Server.Core.Interfaces
     {
         Task<ServiceResponseDto> RegisterAsync(RegisterDto registerDto);
         Task<ServiceResponseDto> LoginAsync(LoginDto loginDto);
+        Task<UserInfoDto?> GetUserAsync(ClaimsPrincipal user);
     }
 }

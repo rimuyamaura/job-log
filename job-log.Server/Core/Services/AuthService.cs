@@ -107,6 +107,32 @@ namespace job_log.Server.Core.Services
             };
         }
 
+        public async Task<UserInfoDto?> GetUserAsync(ClaimsPrincipal user)
+        {
+            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+            {
+                return null;
+            }
+
+            var currentUser = await _userManager.FindByIdAsync(userId);
+            if (currentUser == null)
+            {
+                return null;
+            }
+
+            return new UserInfoDto
+            {
+                Id = currentUser.Id,
+                UserName = currentUser.UserName,
+                FirstName = currentUser.FirstName,
+                LastName = currentUser.LastName,
+                Email = currentUser.Email,
+                CreatedAt = currentUser.CreatedAt,
+
+            };
+        }
+
         private async Task<string> GenerateJWTTokenAsync(User user)
         {
             var claims = new List<Claim>
@@ -130,5 +156,7 @@ namespace job_log.Server.Core.Services
             string tokenString = new JwtSecurityTokenHandler().WriteToken(token);
             return tokenString;
         }
+
+
     }
 }
