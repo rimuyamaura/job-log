@@ -1,5 +1,8 @@
-import { Typography, Box, Paper } from '@mui/material';
+import { Typography, Box, Paper, Link } from '@mui/material';
 import { Status, statusColors } from '../assets/statusEnum';
+import useFormatDate from '../hooks/useFormatDate';
+import IconButton from '@mui/material/IconButton';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 interface JobApplicationProps {
   position: string;
@@ -25,11 +28,7 @@ const JobApplication = ({
   onClick,
 }: JobApplicationProps) => {
   const statusColor = statusColors[status];
-
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleDateString(); // You can customize the format here
-  };
+  const formattedDate = useFormatDate(updatedAt);
 
   return (
     <Paper onClick={onClick} sx={{ cursor: 'pointer' }}>
@@ -39,7 +38,7 @@ const JobApplication = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
-            mb: 2,
+            mb: 1,
           }}
         >
           <Typography variant='h6'>{position}</Typography>
@@ -55,21 +54,37 @@ const JobApplication = ({
         </Box>
         <Typography variant='body1'>{company}</Typography>
         <Typography variant='body2'>{location}</Typography>
-        <Typography variant='body2'>{salary}</Typography>
-        <Typography
-          variant='body2'
+        {salary ? <Typography variant='body2'>${salary}</Typography> : null}
+        <Typography variant='body2' fontStyle='italic'>
+          {notes}
+        </Typography>
+        <Box
           sx={{
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mt: 2,
           }}
         >
-          {url}
-        </Typography>
-        <Typography variant='body2'>{notes}</Typography>
-        <Typography variant='body2'>
-          Last Activity: {formatDate(updatedAt)}
-        </Typography>
+          <IconButton
+            component={Link}
+            href={url}
+            target='_blank'
+            rel='noopener noreferrer'
+            sx={{ padding: 0 }}
+            aria-label='Open link'
+            disabled={!url}
+          >
+            <OpenInNewIcon />
+          </IconButton>
+          <Typography
+            variant='overline'
+            color={'gray'}
+            sx={{ textAlign: 'right', flexGrow: 1 }}
+          >
+            Last Activity: {formattedDate}
+          </Typography>
+        </Box>
       </Box>
     </Paper>
   );

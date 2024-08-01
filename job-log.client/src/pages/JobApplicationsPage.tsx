@@ -47,10 +47,8 @@ const JobApplications = () => {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      // Redirect to login page if user is not authenticated
       navigate('/login');
     } else {
-      // console.log('Fetching job applications');
       dispatch(fetchJobApplications());
     }
   }, [isAuthenticated, navigate, dispatch]);
@@ -59,24 +57,19 @@ const JobApplications = () => {
     setSelectedApplication(application);
     setModalOpen(true);
   };
-
   const handleCloseModal = () => {
     setModalOpen(false);
     setSelectedApplication(null);
   };
-
   const handleAddApplication = (application: any) => {
     dispatch(createJobApplication(application));
   };
-
   const handleSaveApplication = (updatedApplication: any) => {
     dispatch(updateJobApplication(updatedApplication));
   };
-
   const handleDeleteApplication = (id: number) => {
     dispatch(removeJobApplication(id));
   };
-
   const handleFilterChange = (event: SelectChangeEvent<SortByTypes>) => {
     setSortBy(event.target.value as SortByTypes);
   };
@@ -94,9 +87,9 @@ const JobApplications = () => {
   );
 
   return (
-    <Box>
+    <Box sx={{ mx: { xl: 10 } }}>
       <Typography variant='h4' gutterBottom>
-        Job Applications
+        My Job Applications
       </Typography>
 
       {loading ? (
@@ -105,17 +98,9 @@ const JobApplications = () => {
         <Typography color='error'>{error}</Typography>
       ) : (
         <>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              mb: 2,
-            }}
-          >
-            <AddJobApplicationBtn onSave={handleAddApplication} />
-            <FormControl sx={{ ml: 2, minWidth: 150 }}>
+          <AddJobApplicationBtn onSave={handleAddApplication} />
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <FormControl sx={{ minWidth: 150 }}>
               <InputLabel>Sort By</InputLabel>
               <Select
                 value={sortBy}
@@ -133,7 +118,7 @@ const JobApplications = () => {
             </FormControl>
           </Box>
 
-          <Grid container spacing={3} mt={3}>
+          <Grid container spacing={5} mt={1}>
             {sortedApplications.map((ja) => (
               <Grid item xs={12} sm={12} md={4} key={ja.id}>
                 <JobApplication

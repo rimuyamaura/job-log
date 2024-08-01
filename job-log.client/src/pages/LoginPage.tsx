@@ -26,7 +26,7 @@ const Login = () => {
   useEffect(() => {
     if (isAuthenticated) {
       console.log('Redirected to home page');
-      navigate('/home');
+      navigate('/');
     } else {
       navigate('/login');
     }

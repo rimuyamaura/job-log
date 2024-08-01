@@ -1,11 +1,22 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, CssBaseline, useMediaQuery, Theme } from '@mui/material';
-import Navbar from './Navbar';
+import { Navbar } from '.';
+import { useAppSelector } from '../store';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
+  const { isAuthenticated } = useAppSelector((state) => state.userState);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to login page if user is not authenticated
+    if (!isAuthenticated) {
+      navigate('/login');
+    }
+  }, [isAuthenticated, navigate]);
 
   return (
     <>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { AddJobApplicationModal } from '.';
 
 const AddJobApplication = ({
@@ -11,7 +12,6 @@ const AddJobApplication = ({
 
   const handleOpen = () => setModalOpen(true);
   const handleClose = () => setModalOpen(false);
-
   const handleSave = (newApplication: any) => {
     onSave(newApplication);
     handleClose();
@@ -19,8 +19,23 @@ const AddJobApplication = ({
 
   return (
     <>
-      <Button variant='contained' color='primary' onClick={handleOpen}>
-        Add Job Application
+      <Button
+        onClick={handleOpen}
+        variant='contained'
+        color='primary'
+        size='large'
+        sx={{
+          height: { xs: 60, sm: 80 },
+          width: { xs: 150, sm: 200 },
+          position: 'fixed',
+          bottom: { xs: 25, sm: 25, md: 50 },
+          right: { xs: 25, sm: 25, md: 50 },
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <AddIcon fontSize='large' sx={{ marginBottom: '3px' }} />
+        <Typography sx={{ fontWeight: 'bold', mx: 1 }}>Create</Typography>
       </Button>
       <AddJobApplicationModal
         open={modalOpen}

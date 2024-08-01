@@ -5,7 +5,6 @@ import {
   LoginPage,
   SignupPage,
   JobApplicationsPage,
-  HomePage,
   ProfilePage,
 } from './pages';
 import { PageLayout } from './components';
@@ -18,11 +17,10 @@ function App() {
       <ThemeProvider theme={theme}>
         <Router>
           <Routes>
-            <Route path='/' element={<LoginPage />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<SignupPage />} />
             <Route
-              path='/jobs'
+              path='/'
               element={
                 <PageLayout>
                   <JobApplicationsPage />
@@ -33,7 +31,7 @@ function App() {
               path='/home'
               element={
                 <PageLayout>
-                  <HomePage />
+                  <JobApplicationsPage />
                 </PageLayout>
               }
             />

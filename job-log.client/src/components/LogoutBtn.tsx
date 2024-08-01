@@ -1,11 +1,10 @@
 import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux';
 import { logoutUser } from '../features/userSlice';
-import { AppDispatch } from '../store'; // Specify types
+import { useAppDispatch } from '../store'; // Specify types
 import { useNavigate } from 'react-router-dom';
 
 const LogoutBtn = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleLogout = async () => {

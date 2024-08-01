@@ -12,8 +12,10 @@ import {
   IconButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { Theme } from '@mui/material/styles';
 import { LogoutBtn } from '../components';
+import useLogout from '../hooks/useLogout';
 
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -25,6 +27,7 @@ const Navbar = () => {
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);
   };
+  const handleLogout = useLogout();
 
   const menuItems = [
     { title: 'Dashboard', url: '/home' },
@@ -34,13 +37,18 @@ const Navbar = () => {
 
   const drawer = (
     <Box
-      sx={{ width: 200, my: 4 }}
+      sx={{ width: 200, my: '20%' }}
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <List>
         {menuItems.map((item) => (
-          <ListItemButton key={item.title} component={Link} to={item.url}>
+          <ListItemButton
+            key={item.title}
+            component={Link}
+            to={item.url}
+            sx={{ my: 1 }}
+          >
             <ListItemText primary={item.title} />
           </ListItemButton>
         ))}
@@ -60,6 +68,7 @@ const Navbar = () => {
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
+              justifyContent: 'space-between', // Ensure space between items
             }}
           >
             <IconButton
@@ -70,15 +79,19 @@ const Navbar = () => {
             >
               <MenuIcon />
             </IconButton>
-            <Drawer
-              anchor='left'
-              open={drawerOpen}
-              onClose={toggleDrawer(false)}
-            >
-              {drawer}
-            </Drawer>
             <Typography variant='h6'>Job-Log</Typography>
+            <IconButton
+              edge='end'
+              color='primary'
+              aria-label='logout'
+              onClick={handleLogout}
+            >
+              <LogoutIcon />
+            </IconButton>
           </Box>
+          <Drawer anchor='left' open={drawerOpen} onClose={toggleDrawer(false)}>
+            {drawer}
+          </Drawer>
         </Drawer>
       ) : (
         <Drawer
