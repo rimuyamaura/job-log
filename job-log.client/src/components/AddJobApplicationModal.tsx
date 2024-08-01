@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -17,53 +17,24 @@ import { Status } from '../assets/statusEnum';
 interface JobApplicationModalProps {
   open: boolean;
   onClose: () => void;
-  application?: {
-    id: number;
-    position: string;
-    company: string;
-    status: Status;
-    location: string;
-    salary: string;
-    url: string;
-    notes: string;
-    updatedAt: string;
-  };
-  onSave: (updatedApplication: any) => void;
-  onDelete?: (id: number) => void;
+  onSave: (newJobApplication: any) => void;
 }
 
-const JobApplicationModal = ({
+const AddJobApplicationModal = ({
   open,
   onClose,
-  application,
   onSave,
-  onDelete,
 }: JobApplicationModalProps) => {
-  const [position, setPosition] = useState(application?.position || '');
-  const [company, setCompany] = useState(application?.company || '');
-  const [status, setStatus] = useState<Status>(
-    application?.status || Status.Applied
-  ); // Use the enum type
-  const [location, setLocation] = useState(application?.location || '');
-  const [salary, setSalary] = useState(application?.salary || '');
-  const [url, setUrl] = useState(application?.url || '');
-  const [notes, setNotes] = useState(application?.notes || '');
-
-  useEffect(() => {
-    if (application) {
-      setPosition(application.position);
-      setCompany(application.company);
-      setStatus(application.status);
-      setLocation(application.location);
-      setSalary(application.salary);
-      setUrl(application.url);
-      setNotes(application.notes);
-    }
-  }, [application]);
+  const [position, setPosition] = useState('');
+  const [company, setCompany] = useState('');
+  const [status, setStatus] = useState<Status>(Status.Applied); // Use the enum type
+  const [location, setLocation] = useState('');
+  const [salary, setSalary] = useState('');
+  const [url, setUrl] = useState('');
+  const [notes, setNotes] = useState('');
 
   const handleSave = () => {
-    const updatedApplication = {
-      id: application?.id,
+    const newJobApplication = {
       position,
       company,
       status,
@@ -73,22 +44,13 @@ const JobApplicationModal = ({
       notes,
       updatedAt: new Date().toISOString(),
     };
-    onSave(updatedApplication); // Pass new details onto parent function
-    onClose();
-  };
-
-  const handleDelete = () => {
-    if (application && onDelete) {
-      onDelete(application.id);
-    }
+    onSave(newJobApplication); // Pass new job application to parent function
     onClose();
   };
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>
-        {application ? 'Edit Job Application' : 'Add Job Application'}
-      </DialogTitle>
+      <DialogTitle>{'Add Job Application'}</DialogTitle>
       <DialogContent>
         <Box component='form' sx={{ mt: 2 }}>
           <TextField
@@ -115,6 +77,7 @@ const JobApplicationModal = ({
               value={status}
               onChange={(e) => setStatus(e.target.value as Status)}
               label='Status'
+              required
             >
               {Object.values(Status).map((statusOption) => (
                 <MenuItem key={statusOption} value={statusOption}>
@@ -151,41 +114,25 @@ const JobApplicationModal = ({
             onChange={(e) => setNotes(e.target.value)}
             multiline
             rows={4}
-            sx={{ mb: 2 }}
+            sx={{ mb: 1 }}
           />
         </Box>
       </DialogContent>
-      <DialogActions
-        sx={{ display: 'flex', justifyContent: 'space-between', mb: 2, mx: 2 }}
-      >
-        <Box sx={{ flex: 1 }}>
-          {application && (
-            <Button onClick={handleDelete} variant='contained' color='error'>
-              Delete
-            </Button>
-          )}
-        </Box>
-        <Box>
-          <Button
-            onClick={handleSave}
-            variant='contained'
-            color='primary'
-            disabled={!position || !company || !status}
-          >
-            Save
-          </Button>
-          <Button
-            onClick={onClose}
-            variant='contained'
-            color='secondary'
-            sx={{ ml: 1 }}
-          >
-            Cancel
-          </Button>
-        </Box>
+      <DialogActions sx={{ mb: 2, mx: 2 }}>
+        <Button
+          onClick={handleSave}
+          variant='contained'
+          color='primary'
+          disabled={!position || !company || !status}
+        >
+          Save
+        </Button>
+        <Button onClick={onClose} variant='contained' color='secondary'>
+          Cancel
+        </Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default JobApplicationModal;
+export default AddJobApplicationModal;

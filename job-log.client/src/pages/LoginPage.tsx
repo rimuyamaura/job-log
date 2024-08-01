@@ -11,8 +11,8 @@ import {
   Paper,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
-import { loginUser } from '../features/userSlice';
 import { useAppDispatch, useAppSelector } from '../store';
+import { loginUser } from '../features/userSlice';
 
 const Login = () => {
   const dispatch = useAppDispatch();

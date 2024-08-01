@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Typography,
   Box,
@@ -7,92 +8,52 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  SelectChangeEvent,
 } from '@mui/material';
 import {
   AddJobApplicationBtn,
   JobApplication,
   JobApplicationModal,
 } from '../components';
-import { Status } from '../assets/statusEnum';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
+
+import { useAppDispatch, useAppSelector } from '../store';
+import {
+  createJobApplication,
+  fetchJobApplications,
+  updateJobApplication,
+  removeJobApplication,
+} from '../features/jobApplicationSlice';
 
 const JobApplications = () => {
-  const [applications, setApplications] = useState<any[]>([]);
+  type SortByTypes =
+    | 'All'
+    | 'Wishlist'
+    | 'Applied'
+    | 'Interviewing'
+    | 'Offer Received'
+    | 'Rejected'
+    | 'Ghosted';
+  const [sortBy, setSortBy] = useState<SortByTypes>('All');
   const [selectedApplication, setSelectedApplication] = useState<any | null>(
     null
   );
   const [modalOpen, setModalOpen] = useState(false);
-  const { isAuthenticated } = useSelector(
-    (state: RootState) => state.userState
-  );
+  const { isAuthenticated } = useAppSelector((state) => state.userState);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { applications, loading, error } = useAppSelector(
+    (state) => state.jobApplicationState
+  );
 
   useEffect(() => {
     if (!isAuthenticated) {
       // Redirect to login page if user is not authenticated
       navigate('/login');
     } else {
-      // const fetchApplications = () => {
-      //   const exampleApplications = [
-      //     {
-      //       id: 1,
-      //       position: 'Software Engineer',
-      //       company: 'Tech Innovators Inc.',
-      //       status: Status.Applied,
-      //       location: 'San Francisco, CA',
-      //       salary: '$120,000',
-      //       url: 'https://www.techinnovators.com',
-      //       notes: 'This is a note about the job application.',
-      //       updatedAt: '2022-01-01',
-      //     },
-      //     {
-      //       id: 2,
-      //       position: 'Product Manager',
-      //       company: 'Creative Solutions Ltd.',
-      //       status: Status.Interviewing,
-      //       location: 'New York, NY',
-      //       salary: '$130,000',
-      //       url: 'https://www.creativesolutions.com',
-      //       notes:
-      //         'This is a note about the job application. It could include information about the company, the role, or the interview process.',
-      //       updatedAt: '2022-01-02',
-      //     },
-      //     {
-      //       id: 3,
-      //       position: 'UX Designer',
-      //       company: 'Design Co.',
-      //       status: Status.Rejected,
-      //       location: 'Los Angeles, CA',
-      //       salary: '$110,000',
-      //       url: 'https://www.designco.com',
-      //       notes:
-      //         'This is a note about the job application. It could include information about the company, the role, or the interview process.',
-      //       updatedAt: '2022-01-03',
-      //     },
-      //     {
-      //       id: 4,
-      //       position: 'Data Analyst',
-      //       company: 'Data Insights',
-      //       status: Status.OfferReceived,
-      //       location: 'Chicago, IL',
-      //       salary: '$100,000',
-      //       url: 'https://www.datainsights.com',
-      //       notes:
-      //         'This is a note about the job application. It could include information about the company, the role, or the interview process.',
-      //       updatedAt: '2022-01-04',
-      //     },
-      //   ];
-      //   setApplications(exampleApplications);
-      // };
-      // fetchApplications();
+      // console.log('Fetching job applications');
+      dispatch(fetchJobApplications());
     }
-  }, [isAuthenticated, navigate]);
-
-  const handleSave = (application: any) => {
-    // TODO: Implement save functionality
-  };
+  }, [isAuthenticated, navigate, dispatch]);
 
   const handleOpenModal = (application: any) => {
     setSelectedApplication(application);
@@ -104,25 +65,31 @@ const JobApplications = () => {
     setSelectedApplication(null);
   };
 
+  const handleAddApplication = (application: any) => {
+    dispatch(createJobApplication(application));
+  };
+
   const handleSaveApplication = (updatedApplication: any) => {
-    // TODO: Implement save functionality
+    dispatch(updateJobApplication(updatedApplication));
   };
 
   const handleDeleteApplication = (id: number) => {
-    // TODO: Implement delete functionality
+    dispatch(removeJobApplication(id));
   };
 
-  // TODO: Implement filter functionality
-  // const handleFilterChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-  //   setFilter(event.target.value as string);
-  // };
-  // const filteredApplications =
-  //   filter === 'All'
-  //     ? applications
-  //     : applications.filter((app) => app.status === filter);
+  const handleFilterChange = (event: SelectChangeEvent<SortByTypes>) => {
+    setSortBy(event.target.value as SortByTypes);
+  };
 
-  // Sorting job applications by updatedAt date
-  const sortedApplications = [...applications].sort(
+  // Filter job applications by status
+  const filteredApplications = applications.filter((ja) => {
+    if (sortBy === 'All') {
+      return true;
+    }
+    return ja.status === sortBy;
+  });
+  // Then display most recent applications first
+  const sortedApplications = filteredApplications.sort(
     (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
   );
 
@@ -132,48 +99,59 @@ const JobApplications = () => {
         Job Applications
       </Typography>
 
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          mb: 2,
-        }}
-      >
-        <AddJobApplicationBtn onSave={handleSave} />
-        <FormControl sx={{ ml: 2, minWidth: 150 }}>
-          <InputLabel>Sort By</InputLabel>
-          {/* <Select value={filter} onChange={handleFilterChange} label='Sort By'> */}
-          <Select label='Sort By'>
-            <MenuItem value='All'>All</MenuItem>
-            <MenuItem value='Wishlist'>Wishlist</MenuItem>
-            <MenuItem value='Applied'>Applied</MenuItem>
-            <MenuItem value='Interviewing'>Interviewing</MenuItem>
-            <MenuItem value='Offer Received'>Offer Received</MenuItem>
-            <MenuItem value='Rejected'>Rejected</MenuItem>
-            <MenuItem value='Ghosted'>Ghosted</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      {loading ? (
+        <Typography>Loading...</Typography>
+      ) : error ? (
+        <Typography color='error'>{error}</Typography>
+      ) : (
+        <>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              mb: 2,
+            }}
+          >
+            <AddJobApplicationBtn onSave={handleAddApplication} />
+            <FormControl sx={{ ml: 2, minWidth: 150 }}>
+              <InputLabel>Sort By</InputLabel>
+              <Select
+                value={sortBy}
+                onChange={handleFilterChange}
+                label='Sort By'
+              >
+                <MenuItem value='All'>All</MenuItem>
+                <MenuItem value='Wishlist'>Wishlist</MenuItem>
+                <MenuItem value='Applied'>Applied</MenuItem>
+                <MenuItem value='Interviewing'>Interviewing</MenuItem>
+                <MenuItem value='Offer Received'>Offer Received</MenuItem>
+                <MenuItem value='Rejected'>Rejected</MenuItem>
+                <MenuItem value='Ghosted'>Ghosted</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
 
-      <Grid container spacing={3} mt={3}>
-        {sortedApplications.map((ja) => (
-          <Grid item xs={12} sm={12} md={4} key={ja.id}>
-            <JobApplication
-              position={ja.position}
-              company={ja.company}
-              status={ja.status}
-              location={ja.location}
-              salary={ja.salary}
-              url={ja.url}
-              notes={ja.notes}
-              updatedAt={ja.updatedAt}
-              onClick={() => handleOpenModal(ja)}
-            />
+          <Grid container spacing={3} mt={3}>
+            {sortedApplications.map((ja) => (
+              <Grid item xs={12} sm={12} md={4} key={ja.id}>
+                <JobApplication
+                  position={ja.position}
+                  company={ja.company}
+                  status={ja.status}
+                  location={ja.location}
+                  salary={ja.salary}
+                  url={ja.url}
+                  notes={ja.notes}
+                  updatedAt={ja.updatedAt}
+                  onClick={() => handleOpenModal(ja)}
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
+        </>
+      )}
       {selectedApplication && (
         <JobApplicationModal
           open={modalOpen}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '@mui/material';
-import { JobApplicationModal } from '.';
+import { AddJobApplicationModal } from '.';
 
 const AddJobApplication = ({
   onSave,
@@ -22,7 +22,7 @@ const AddJobApplication = ({
       <Button variant='contained' color='primary' onClick={handleOpen}>
         Add Job Application
       </Button>
-      <JobApplicationModal
+      <AddJobApplicationModal
         open={modalOpen}
         onClose={handleClose}
         onSave={handleSave}

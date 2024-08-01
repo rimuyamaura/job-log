@@ -26,6 +26,11 @@ const JobApplication = ({
 }: JobApplicationProps) => {
   const statusColor = statusColors[status];
 
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString(); // You can customize the format here
+  };
+
   return (
     <Paper onClick={onClick} sx={{ cursor: 'pointer' }}>
       <Box p={2} textOverflow={'ellipsis'}>
@@ -62,7 +67,9 @@ const JobApplication = ({
           {url}
         </Typography>
         <Typography variant='body2'>{notes}</Typography>
-        <Typography variant='body2'>Last Activity: {updatedAt}</Typography>
+        <Typography variant='body2'>
+          Last Activity: {formatDate(updatedAt)}
+        </Typography>
       </Box>
     </Paper>
   );

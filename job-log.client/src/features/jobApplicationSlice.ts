@@ -3,7 +3,7 @@ import axiosInstance from './axiosInstance';
 import { Status } from '../assets/statusEnum';
 
 export interface JobApplication {
-  id: string;
+  id: number;
   position: string;
   company: string;
   status: Status;
@@ -31,7 +31,7 @@ export const fetchJobApplications = createAsyncThunk(
   'jobApplications/fetch',
   async (_, thunkAPI) => {
     try {
-      const response = await axiosInstance.get('/api/JobApplication');
+      const response = await axiosInstance.get('/JobApplication');
       return response.data as JobApplication[];
     } catch (error) {
       return thunkAPI.rejectWithValue('Failed to fetch job applications');
@@ -44,7 +44,7 @@ export const createJobApplication = createAsyncThunk(
   async (jobApplication: Omit<JobApplication, 'id'>, thunkAPI) => {
     try {
       const response = await axiosInstance.post(
-        '/api/JobApplication',
+        '/JobApplication',
         jobApplication
       );
       return response.data as JobApplication;
@@ -59,7 +59,7 @@ export const updateJobApplication = createAsyncThunk(
   async (jobApplication: JobApplication, thunkAPI) => {
     try {
       const response = await axiosInstance.put(
-        `/api/JobApplication/${jobApplication.id}`,
+        `/JobApplication/${jobApplication.id}`,
         jobApplication
       );
       return response.data as JobApplication;
@@ -71,9 +71,9 @@ export const updateJobApplication = createAsyncThunk(
 
 export const removeJobApplication = createAsyncThunk(
   'jobApplications/remove',
-  async (id: string, thunkAPI) => {
+  async (id: number, thunkAPI) => {
     try {
-      const response = await axiosInstance.delete(`/api/JobApplication/${id}`);
+      const response = await axiosInstance.delete(`/JobApplication/${id}`);
       return { id, message: response.data as string };
     } catch (error) {
       return thunkAPI.rejectWithValue('Failed to remove job application');
