@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axiosInstance from './axiosInstance';
 
 export interface User {
@@ -17,6 +17,7 @@ export interface UserState {
   user: User | null;
   loading: boolean;
   error: string | null;
+  isDarkMode: boolean;
 }
 
 const initialState: UserState = {
@@ -26,6 +27,7 @@ const initialState: UserState = {
   user: null,
   loading: false,
   error: null,
+  isDarkMode: localStorage.getItem('isDarkMode') === 'true',
 };
 
 // Use Thunks to handle async API calls
@@ -73,7 +75,16 @@ export const logoutUser = createAsyncThunk('user/logout', async () => {
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleTheme(state) {
+      state.isDarkMode = !state.isDarkMode;
+      localStorage.setItem('isDarkMode', state.isDarkMode.toString());
+    },
+    setTheme(state, action: PayloadAction<boolean>) {
+      state.isDarkMode = action.payload;
+      localStorage.setItem('isDarkMode', action.payload.toString());
+    },
+  },
   extraReducers: (builder) => {
     // Login
     builder.addCase(loginUser.pending, (state) => {
@@ -116,4 +127,5 @@ export const userSlice = createSlice({
   },
 });
 
+export const { toggleTheme, setTheme } = userSlice.actions;
 export default userSlice.reducer;

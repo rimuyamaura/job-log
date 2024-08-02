@@ -8,13 +8,17 @@ import {
   ProfilePage,
 } from './pages';
 import { PageLayout } from './components';
-import { themeSettings } from './assets/theme.ts';
+import { lightThemeSettings, darkThemeSettings } from './assets/theme.ts';
+import { useAppSelector } from './store';
 
 function App() {
-  const theme = useMemo(() => createTheme(themeSettings), []);
+  const lightTheme = useMemo(() => createTheme(lightThemeSettings), []);
+  const darkTheme = useMemo(() => createTheme(darkThemeSettings), []);
+  const { isDarkMode } = useAppSelector((state) => state.userState);
+
   return (
     <div className='App'>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
         <Router>
           <Routes>
             <Route path='/login' element={<LoginPage />} />

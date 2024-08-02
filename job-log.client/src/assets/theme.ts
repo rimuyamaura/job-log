@@ -39,14 +39,17 @@ export const tokens = {
     500: '#8884d8',
   },
   background: {
-    light: '#2d2d34',
-    main: '#1f2026',
+    light: '#ffffff',
+    lightMain: '#1f2026',
+    dark: '#1f2026',
+    darkMain: '#1f2026',
   },
 };
 
-// mui theme settings
-export const themeSettings = {
+// Light theme
+export const lightThemeSettings = {
   palette: {
+    mode: 'light' as const,
     primary: {
       ...tokens.primary,
       main: tokens.primary[500],
@@ -64,8 +67,33 @@ export const themeSettings = {
       main: tokens.grey[500],
     },
     background: {
-      default: tokens.background.main,
-      light: tokens.background.light,
+      default: tokens.background.lightMain,
+    },
+  },
+};
+
+// Dark theme
+export const darkThemeSettings = {
+  palette: {
+    mode: 'dark' as const,
+    primary: {
+      ...tokens.primary,
+      main: tokens.primary[500],
+      light: tokens.primary[400],
+    },
+    secondary: {
+      ...tokens.secondary,
+      main: tokens.secondary[500],
+    },
+    tertiary: {
+      ...tokens.tertiary,
+    },
+    grey: {
+      ...tokens.grey,
+      main: tokens.grey[500],
+    },
+    background: {
+      default: tokens.background.dark,
     },
   },
 };

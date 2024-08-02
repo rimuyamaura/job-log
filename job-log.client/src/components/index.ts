@@ -6,3 +6,4 @@ export { default as JobApplicationModal } from './JobApplicationModal.tsx';
 export { default as AddJobApplicationBtn } from './AddJobApplicationBtn.tsx';
 export { default as LogoutBtn } from './LogoutBtn.tsx';
 export { default as useAlertContext } from './AlertProvider.tsx';
+export { default as ThemeToggleSwitch } from './ThemeToggleSwitch.tsx';

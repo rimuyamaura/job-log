@@ -14,7 +14,7 @@ import {
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Theme } from '@mui/material/styles';
-import { LogoutBtn } from '../components';
+import { LogoutBtn, ThemeToggleSwitch } from '../components';
 import useLogout from '../hooks/useLogout';
 
 const Navbar = () => {
@@ -37,7 +37,14 @@ const Navbar = () => {
 
   const drawer = (
     <Box
-      sx={{ width: 200, my: '20%' }}
+      sx={{
+        width: 180,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        my: '20%',
+      }}
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
@@ -53,6 +60,16 @@ const Navbar = () => {
           </ListItemButton>
         ))}
       </List>
+      <Box
+        sx={{
+          mb: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <ThemeToggleSwitch />
+      </Box>
     </Box>
   );
 
@@ -128,6 +145,7 @@ const Navbar = () => {
                 {item.title}
               </Button>
             ))}
+            <ThemeToggleSwitch />
             <LogoutBtn />
           </Box>
         </Drawer>
