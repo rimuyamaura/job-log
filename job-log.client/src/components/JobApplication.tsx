@@ -3,6 +3,7 @@ import { Status, statusColors } from '../assets/statusEnum';
 import useFormatDate from '../hooks/useFormatDate';
 import IconButton from '@mui/material/IconButton';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import { motion } from 'framer-motion';
 
 interface JobApplicationProps {
   position: string;
@@ -31,8 +32,21 @@ const JobApplication = ({
   const formattedDate = useFormatDate(updatedAt);
 
   return (
-    <Paper onClick={onClick} sx={{ cursor: 'pointer' }}>
-      <Box p={2} textOverflow={'ellipsis'}>
+    <Paper
+      onClick={onClick}
+      component={motion.div}
+      sx={{
+        cursor: 'pointer',
+        backdropFilter: 'blur(8px)',
+        overflow: 'hidden',
+        p: 2,
+      }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ y: -1, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
+    >
+      <Box>
         <Box
           sx={{
             display: 'flex',

@@ -8,7 +8,7 @@ const useLogout = () => {
 
   const logout = async () => {
     try {
-      await dispatch(logoutUser() as any);
+      await dispatch(logoutUser());
       navigate('/login');
     } catch (error) {
       console.error('Logout failed', error);

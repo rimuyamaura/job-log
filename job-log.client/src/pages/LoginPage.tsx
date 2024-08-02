@@ -13,6 +13,7 @@ import {
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store';
 import { loginUser } from '../features/userSlice';
+import { ThemeToggleSwitch } from '../components';
 
 const Login = () => {
   const dispatch = useAppDispatch();
@@ -67,70 +68,89 @@ const Login = () => {
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: '40%',
-              mx: 4,
+              height: '100%',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'space-between',
+              p: 4,
             }}
           >
-            <Typography component='h1' variant='h5'>
-              Log In
-            </Typography>
             <Box
-              component='form'
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
             >
-              <TextField
-                margin='normal'
-                required
-                fullWidth
-                id='username'
-                label='Username'
-                name='username'
-                autoComplete='username'
-                autoFocus
-                value={userName}
-                onChange={handleUserNameChange}
-                // error={!userName}
-                helperText={!userName ? 'Username is required' : ''}
-              />
-              <TextField
-                margin='normal'
-                required
-                fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                autoComplete='current-password'
-                value={password}
-                onChange={handlePasswordChange}
-                // error={!password}
-                helperText={!password ? 'Password is required' : ''}
-              />
-              {error && <Typography color='error'>{error}</Typography>}
-              <Button
-                type='submit'
-                fullWidth
-                variant='contained'
-                sx={{ mt: 3, mb: 2 }}
-                disabled={!userName || !password || loading}
-              >
-                {loading ? 'Loading...' : 'Sign In'}
-              </Button>
+              <Typography component='h1' variant='h5' marginTop='40%'>
+                Log In
+              </Typography>
               <Box
-                sx={{
-                  width: '100%',
-                  textAlign: 'right',
-                }}
+                component='form'
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1, width: '100%' }}
               >
-                <Link component={RouterLink} to='/signup' variant='body2'>
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  id='username'
+                  label='Username'
+                  name='username'
+                  autoComplete='username'
+                  autoFocus
+                  value={userName}
+                  onChange={handleUserNameChange}
+                  helperText={!userName ? 'Username is required' : ''}
+                />
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  autoComplete='current-password'
+                  value={password}
+                  onChange={handlePasswordChange}
+                  helperText={!password ? 'Password is required' : ''}
+                />
+                {error && <Typography color='error'>{error}</Typography>}
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={!userName || !password || loading}
+                >
+                  {loading ? 'Loading...' : 'Sign In'}
+                </Button>
+                <Box
+                  sx={{
+                    width: '100%',
+                    textAlign: 'right',
+                  }}
+                >
+                  <Link component={RouterLink} to='/signup' variant='body2'>
+                    {"Don't have an account? Sign Up"}
+                  </Link>
+                </Box>
               </Box>
+            </Box>
+            <Box
+              sx={{
+                mt: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '100%',
+              }}
+            >
+              <ThemeToggleSwitch />
             </Box>
           </Box>
         </Grid>

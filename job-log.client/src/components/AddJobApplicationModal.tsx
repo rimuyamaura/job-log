@@ -13,6 +13,7 @@ import {
   MenuItem,
 } from '@mui/material';
 import { Status } from '../assets/statusEnum';
+import useShowAlert from '../hooks/useShowAlert';
 
 interface JobApplicationModalProps {
   open: boolean;
@@ -32,6 +33,7 @@ const AddJobApplicationModal = ({
   const [salary, setSalary] = useState('');
   const [url, setUrl] = useState('');
   const [notes, setNotes] = useState('');
+  const showAlert = useShowAlert();
 
   const handleSave = () => {
     const newJobApplication = {
@@ -46,6 +48,7 @@ const AddJobApplicationModal = ({
     };
     onSave(newJobApplication); // Pass new job application to parent function
     onClose();
+    showAlert('Job Application Saved!', 'success');
   };
 
   return (

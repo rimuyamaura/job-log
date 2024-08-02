@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector,
+} from '@reduxjs/toolkit';
 import axiosInstance from './axiosInstance';
 import { Status } from '../assets/statusEnum';
 
@@ -81,6 +85,36 @@ export const removeJobApplication = createAsyncThunk(
   }
 );
 
+// Selectors to return derived state
+const selectApplications = (state: {
+  jobApplicationState: JobApplicationState;
+}) => state.jobApplicationState.applications;
+
+// Get count of all applications
+export const selectTotalApplications = createSelector(
+  [selectApplications],
+  (applications) => applications.length
+);
+
+// Get count of applications by status
+const selectStatusCounts = createSelector(
+  [selectApplications],
+  (applications) => {
+    const counts: Record<Status, number> = {
+      [Status.Wishlist]: 0,
+      [Status.Applied]: 0,
+      [Status.Interviewing]: 0,
+      [Status.OfferReceived]: 0,
+      [Status.Rejected]: 0,
+      [Status.Ghosted]: 0,
+    };
+    applications.forEach((app) => {
+      counts[app.status]++;
+    });
+    return counts;
+  }
+);
+
 export const jobApplicationSlice = createSlice({
   name: 'jobApplications',
   initialState,
@@ -148,3 +182,8 @@ export const jobApplicationSlice = createSlice({
   },
 });
 export default jobApplicationSlice.reducer;
+
+export const jobApplicationSelectors = {
+  selectTotalApplications,
+  selectStatusCounts,
+};

@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axiosInstance from '../features/axiosInstance';
+import { ThemeToggleSwitch } from '../components';
 import useShowAlert from '../hooks/useShowAlert';
 
 const Signup = () => {
@@ -81,107 +82,129 @@ const Signup = () => {
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
-              my: '30%',
-              mx: 4,
+              height: '100%',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'space-between',
+              p: 4,
             }}
           >
-            <Typography component='h1' variant='h5'>
-              Sign Up
-            </Typography>
             <Box
-              component='form'
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+              sx={{
+                width: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
             >
-              <TextField
-                margin='normal'
-                required
-                fullWidth
-                id='username'
-                label='Username'
-                name='username'
-                autoComplete='username'
-                autoFocus
-                value={userName}
-                onChange={handleChange(setUserName)}
-                helperText={!userName ? 'Username is required' : ''}
-              />
-              <TextField
-                margin='normal'
-                required
-                fullWidth
-                id='email'
-                label='Email Address'
-                name='email'
-                autoComplete='email'
-                value={email}
-                onChange={handleChange(setEmail)}
-                helperText={!email ? 'Email is required' : ''}
-              />
-              <Grid container columnSpacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    margin='normal'
-                    fullWidth
-                    id='firstName'
-                    label='First Name'
-                    name='firstname'
-                    autoComplete='firstname'
-                    value={firstName}
-                    onChange={handleChange(setFirstName)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    margin='normal'
-                    fullWidth
-                    id='lastname'
-                    label='Last Name'
-                    name='lastname'
-                    autoComplete='lastname'
-                    value={lastName}
-                    onChange={handleChange(setLastName)}
-                  />
-                </Grid>
-              </Grid>
-
-              <TextField
-                margin='normal'
-                required
-                fullWidth
-                name='password'
-                label='Password'
-                type='password'
-                id='password'
-                autoComplete='current-password'
-                value={password}
-                onChange={handleChange(setPassword)}
-                helperText={!password ? 'Password is required' : ''}
-              />
-              {message && <Typography color='error'>{message}</Typography>}
-              <Button
-                type='submit'
-                fullWidth
-                variant='contained'
-                sx={{ mt: 3, mb: 2 }}
-                disabled={!userName || !password || !email || loading}
-              >
-                {loading ? <CircularProgress size={24} /> : 'Create Account'}
-              </Button>
+              <Typography component='h1' variant='h5' marginTop='25%'>
+                Sign Up
+              </Typography>
               <Box
-                sx={{
-                  width: '100%',
-                  textAlign: 'right',
-                }}
+                component='form'
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1, width: '100%' }}
               >
-                <Link component={RouterLink} to='/login' variant='body2'>
-                  {'Already have an account? Log In'}
-                </Link>
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  id='username'
+                  label='Username'
+                  name='username'
+                  autoComplete='username'
+                  autoFocus
+                  value={userName}
+                  onChange={handleChange(setUserName)}
+                  helperText={!userName ? 'Username is required' : ''}
+                />
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  id='email'
+                  label='Email Address'
+                  name='email'
+                  autoComplete='email'
+                  value={email}
+                  onChange={handleChange(setEmail)}
+                  helperText={!email ? 'Email is required' : ''}
+                />
+                <Grid container columnSpacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      margin='normal'
+                      fullWidth
+                      id='firstName'
+                      label='First Name'
+                      name='firstname'
+                      autoComplete='firstname'
+                      value={firstName}
+                      onChange={handleChange(setFirstName)}
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      margin='normal'
+                      fullWidth
+                      id='lastname'
+                      label='Last Name'
+                      name='lastname'
+                      autoComplete='lastname'
+                      value={lastName}
+                      onChange={handleChange(setLastName)}
+                    />
+                  </Grid>
+                </Grid>
+
+                <TextField
+                  margin='normal'
+                  required
+                  fullWidth
+                  name='password'
+                  label='Password'
+                  type='password'
+                  id='password'
+                  autoComplete='current-password'
+                  value={password}
+                  onChange={handleChange(setPassword)}
+                  helperText={!password ? 'Password is required' : ''}
+                />
+                {message && <Typography color='error'>{message}</Typography>}
+                <Button
+                  type='submit'
+                  fullWidth
+                  variant='contained'
+                  sx={{ mt: 3, mb: 2 }}
+                  disabled={!userName || !password || !email || loading}
+                >
+                  {loading ? <CircularProgress size={24} /> : 'Create Account'}
+                </Button>
+                <Box
+                  sx={{
+                    width: '100%',
+                    textAlign: 'right',
+                  }}
+                >
+                  <Link component={RouterLink} to='/login' variant='body2'>
+                    {'Already have an account? Log In'}
+                  </Link>
+                </Box>
               </Box>
+            </Box>
+            <Box
+              sx={{
+                mt: 'auto',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                width: '100%',
+                pt: 2, // Adjust this value to add space above the ThemeToggleSwitch
+              }}
+            >
+              <ThemeToggleSwitch />
             </Box>
           </Box>
         </Grid>

@@ -1,23 +1,30 @@
-import { Box, Divider, Typography, useTheme } from '@mui/material';
+import { Box, Divider, Paper, Typography, useTheme } from '@mui/material';
+import { motion } from 'framer-motion';
 import { useAppSelector } from '../store';
 import useFormatDate from '../hooks/useFormatDate';
 
 const Profile = () => {
   const theme = useTheme();
   const user = useAppSelector((state) => state.userState.user);
-  const formattedDate = useFormatDate(user?.createdAt || '');
+  const formattedDate = useFormatDate(user?.createdAt);
 
   return (
-    <Box
-      mt={5}
-      mx='auto'
+    <Paper
+      component={motion.div}
       sx={{
+        mt: 5,
+        mx: 'auto',
         padding: 3,
         maxWidth: 600,
         backgroundColor: theme.palette.background.paper,
-        borderRadius: 1,
-        boxShadow: 1,
+        backdropFilter: 'blur(8px)',
+        overflow: 'hidden',
+        p: 2,
       }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ y: -1, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
     >
       <Typography variant='h4' component='h1' gutterBottom>
         Profile
@@ -42,8 +49,9 @@ const Profile = () => {
       <Box sx={{ mb: 2 }}>
         <Typography variant='h6'>Date Joined</Typography>
         <Typography variant='body1'>{formattedDate}</Typography>
+        {/* <Typography variant='body1'>{user?.createdAt}</Typography> */}
       </Box>
-    </Box>
+    </Paper>
   );
 };
 

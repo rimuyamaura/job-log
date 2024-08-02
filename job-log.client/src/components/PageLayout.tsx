@@ -2,7 +2,8 @@ import { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, CssBaseline, useMediaQuery, Theme } from '@mui/material';
 import { Navbar } from '.';
-import { useAppSelector } from '../store';
+import { useAppSelector, useAppDispatch } from '../store';
+import { fetchJobApplications } from '../features/jobApplicationSlice';
 
 const Layout = ({ children }: { children: ReactNode }) => {
   const isSmallScreen = useMediaQuery((theme: Theme) =>
@@ -10,13 +11,16 @@ const Layout = ({ children }: { children: ReactNode }) => {
   );
   const { isAuthenticated } = useAppSelector((state) => state.userState);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Redirect to login page if user is not authenticated
     if (!isAuthenticated) {
       navigate('/login');
+    } else {
+      dispatch(fetchJobApplications());
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, dispatch]);
 
   return (
     <>

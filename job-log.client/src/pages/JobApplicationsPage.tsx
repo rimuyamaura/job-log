@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import {
   Typography,
   Box,
@@ -9,6 +8,7 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Divider,
 } from '@mui/material';
 import {
   AddJobApplicationBtn,
@@ -19,7 +19,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../store';
 import {
   createJobApplication,
-  fetchJobApplications,
   updateJobApplication,
   removeJobApplication,
 } from '../features/jobApplicationSlice';
@@ -38,20 +37,10 @@ const JobApplications = () => {
     null
   );
   const [modalOpen, setModalOpen] = useState(false);
-  const { isAuthenticated } = useAppSelector((state) => state.userState);
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { applications, loading, error } = useAppSelector(
     (state) => state.jobApplicationState
   );
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    } else {
-      dispatch(fetchJobApplications());
-    }
-  }, [isAuthenticated, navigate, dispatch]);
 
   const handleOpenModal = (application: any) => {
     setSelectedApplication(application);
@@ -91,6 +80,7 @@ const JobApplications = () => {
       <Typography variant='h4' gutterBottom>
         My Job Applications
       </Typography>
+      <Divider sx={{ my: 2 }} />
 
       {loading ? (
         <Typography>Loading...</Typography>
@@ -99,7 +89,7 @@ const JobApplications = () => {
       ) : (
         <>
           <AddJobApplicationBtn onSave={handleAddApplication} />
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
             <FormControl sx={{ minWidth: 150 }}>
               <InputLabel>Sort By</InputLabel>
               <Select
@@ -118,9 +108,9 @@ const JobApplications = () => {
             </FormControl>
           </Box>
 
-          <Grid container spacing={5} mt={1}>
+          <Grid container spacing={5}>
             {sortedApplications.map((ja) => (
-              <Grid item xs={12} sm={12} md={4} key={ja.id}>
+              <Grid item xs={12} sm={6} md={6} lg={4} key={ja.id}>
                 <JobApplication
                   position={ja.position}
                   company={ja.company}

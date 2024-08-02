@@ -42,7 +42,7 @@ export const tokens = {
     light: '#ffffff',
     lightMain: '#1f2026',
     dark: '#1f2026',
-    darkMain: '#1f2026',
+    darkMain: '#545454',
   },
 };
 
@@ -67,7 +67,8 @@ export const lightThemeSettings = {
       main: tokens.grey[500],
     },
     background: {
-      default: tokens.background.lightMain,
+      default: tokens.background.light,
+      alt: tokens.background.lightMain,
     },
   },
 };
@@ -94,6 +95,7 @@ export const darkThemeSettings = {
     },
     background: {
       default: tokens.background.dark,
+      alt: tokens.background.darkMain,
     },
   },
 };

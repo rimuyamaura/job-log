@@ -7,19 +7,25 @@ import {
   Typography,
   useMediaQuery,
   List,
-  ListItemButton,
-  ListItemText,
   IconButton,
+  Theme,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Theme } from '@mui/material/styles';
-import { LogoutBtn, ThemeToggleSwitch } from '../components';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { ThemeToggleSwitch } from '../components';
 import useLogout from '../hooks/useLogout';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
+  const menuItems = [
+    { title: 'Dashboard', url: '/home', icon: <DashboardIcon /> },
+    { title: 'Statistics', url: '/stats', icon: <AssessmentIcon /> },
+    { title: 'Profile', url: '/profile', icon: <AccountBoxIcon /> },
+  ];
   const [drawerOpen, setDrawerOpen] = useState(false);
-
   const isSmallScreen = useMediaQuery((theme: Theme) =>
     theme.breakpoints.down('md')
   );
@@ -28,12 +34,6 @@ const Navbar = () => {
     setDrawerOpen(open);
   };
   const handleLogout = useLogout();
-
-  const menuItems = [
-    { title: 'Dashboard', url: '/home' },
-    { title: 'Statistics', url: '' },
-    { title: 'Profile', url: '/profile' },
-  ];
 
   const drawer = (
     <Box
@@ -50,14 +50,25 @@ const Navbar = () => {
     >
       <List>
         {menuItems.map((item) => (
-          <ListItemButton
+          <Box
             key={item.title}
-            component={Link}
-            to={item.url}
-            sx={{ my: 1 }}
+            sx={{
+              width: '100%',
+              my: 1,
+            }}
           >
-            <ListItemText primary={item.title} />
-          </ListItemButton>
+            <Link to={item.url}>
+              <Button
+                component={motion.button}
+                whileTap={{ scale: 0.9 }}
+                fullWidth
+                sx={{ my: 1, py: 3 }}
+              >
+                {item.icon}
+                <Typography sx={{ ml: 1 }}>{item.title}</Typography>
+              </Button>
+            </Link>
+          </Box>
         ))}
       </List>
       <Box
@@ -85,7 +96,7 @@ const Navbar = () => {
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center',
-              justifyContent: 'space-between', // Ensure space between items
+              justifyContent: 'space-between',
             }}
           >
             <IconButton
@@ -112,6 +123,7 @@ const Navbar = () => {
         </Drawer>
       ) : (
         <Drawer
+          component={motion.div}
           variant='permanent'
           anchor='left'
           sx={{
@@ -123,30 +135,64 @@ const Navbar = () => {
         >
           <Box
             sx={{
-              my: '5rem',
-              mx: 4,
+              py: '5rem',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              height: '100%',
+              width: '100%',
             }}
           >
-            <Typography component='h1' variant='h5' sx={{ mt: 3, mb: 2 }}>
+            <Typography component='h1' variant='h5' sx={{ mt: 3, mb: 6 }}>
               Job-Log
             </Typography>
             {menuItems.map((item) => (
-              <Button
+              <Box
                 key={item.title}
-                component={Link}
-                to={item.url}
-                fullWidth
-                variant='contained'
-                sx={{ mt: 3, mb: 2 }}
+                sx={{
+                  width: '100%',
+                }}
               >
-                {item.title}
-              </Button>
+                <Link to={item.url}>
+                  <Button
+                    component={motion.button}
+                    whileTap={{ scale: 0.9 }}
+                    fullWidth
+                    sx={{ my: 1, py: 3 }}
+                  >
+                    {item.icon}
+                    <Typography sx={{ ml: 1 }}>{item.title}</Typography>
+                  </Button>
+                </Link>
+              </Box>
             ))}
-            <ThemeToggleSwitch />
-            <LogoutBtn />
+            <Box
+              sx={{
+                mt: 'auto',
+                width: '100%',
+              }}
+            >
+              <Box
+                sx={{
+                  mb: 2,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <ThemeToggleSwitch />
+              </Box>
+              <Button
+                component={motion.button}
+                whileTap={{ scale: 0.9 }}
+                fullWidth
+                sx={{ my: 1, py: 3 }}
+                onClick={handleLogout}
+              >
+                <LogoutIcon />
+                <Typography sx={{ ml: 1 }}>Logout</Typography>
+              </Button>
+            </Box>
           </Box>
         </Drawer>
       )}

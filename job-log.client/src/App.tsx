@@ -6,6 +6,7 @@ import {
   SignupPage,
   JobApplicationsPage,
   ProfilePage,
+  StatisticsPage,
 } from './pages';
 import { PageLayout } from './components';
 import { lightThemeSettings, darkThemeSettings } from './assets/theme.ts';
@@ -36,6 +37,14 @@ function App() {
               element={
                 <PageLayout>
                   <JobApplicationsPage />
+                </PageLayout>
+              }
+            />
+            <Route
+              path='/stats'
+              element={
+                <PageLayout>
+                  <StatisticsPage />
                 </PageLayout>
               }
             />
