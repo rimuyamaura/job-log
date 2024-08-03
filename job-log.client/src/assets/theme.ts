@@ -40,9 +40,8 @@ export const tokens = {
   },
   background: {
     light: '#ffffff',
-    lightMain: '#1f2026',
     dark: '#1f2026',
-    darkMain: '#545454',
+    darkAlt: '#545454',
   },
 };
 
@@ -52,8 +51,8 @@ export const lightThemeSettings = {
     mode: 'light' as const,
     primary: {
       ...tokens.primary,
-      main: tokens.primary[500],
-      light: tokens.primary[400],
+      main: tokens.primary[700],
+      light: tokens.primary[600],
     },
     secondary: {
       ...tokens.secondary,
@@ -68,7 +67,7 @@ export const lightThemeSettings = {
     },
     background: {
       default: tokens.background.light,
-      alt: tokens.background.lightMain,
+      alt: tokens.background.dark,
     },
   },
 };
@@ -95,7 +94,7 @@ export const darkThemeSettings = {
     },
     background: {
       default: tokens.background.dark,
-      alt: tokens.background.darkMain,
+      alt: tokens.background.darkAlt,
     },
   },
 };

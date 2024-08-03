@@ -10,10 +10,12 @@ import {
   Typography,
   Paper,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import axiosInstance from '../features/axiosInstance';
-import { ThemeToggleSwitch } from '../components';
+import { ThemeToggleSwitch, AuthPageAnimation } from '../components';
 import useShowAlert from '../hooks/useShowAlert';
 
 const Signup = () => {
@@ -25,8 +27,9 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [message, setmessage] = useState<string | null>(null);
   const showAlert = useShowAlert();
-
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleChange = useCallback(
     (setter: React.Dispatch<React.SetStateAction<string>>) =>
@@ -62,23 +65,35 @@ const Signup = () => {
     <Container maxWidth='lg'>
       <Grid container component='main' sx={{ height: '100vh' }}>
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              'url("/static/images/templates/templates-images/sign-in-side-bg.png")',
+        {!isSmallScreen ? (
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={7}
+            sx={{
+              backgroundSize: 'cover',
+              backgroundPosition: 'left',
+              height: '100%',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            <AuthPageAnimation
+              style={{
+                height: '100%',
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+              }}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={false} sm={4} md={7} />
+        )}
 
-            backgroundColor: (t) =>
-              t.palette.mode === 'light'
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'left',
-          }}
-        />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
             sx={{
@@ -88,6 +103,7 @@ const Signup = () => {
               alignItems: 'center',
               justifyContent: 'space-between',
               p: 4,
+              overflow: 'auto',
             }}
           >
             <Box
@@ -201,7 +217,7 @@ const Signup = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 width: '100%',
-                pt: 2, // Adjust this value to add space above the ThemeToggleSwitch
+                pt: 2,
               }}
             >
               <ThemeToggleSwitch />

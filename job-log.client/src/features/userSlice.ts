@@ -67,7 +67,7 @@ export const logoutUser = createAsyncThunk('user/logout', async () => {
   if (token) {
     console.error('Failed to remove token from localStorage');
   } else {
-    console.log('Token successfully removed');
+    // console.log('Token successfully removed');
   }
   return true;
 });

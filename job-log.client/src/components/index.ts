@@ -8,3 +8,4 @@ export { default as useAlertContext } from './AlertProvider.tsx';
 export { default as ThemeToggleSwitch } from './ThemeToggleSwitch.tsx';
 export { default as Statcard } from './Statcard.tsx';
 export { default as StatusDistributionChart } from './StatusDistributionChart.tsx';
+export { default as AuthPageAnimation } from './AuthPageAnimation.tsx';
