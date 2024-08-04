@@ -21,11 +21,14 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: List files in deployment directory
+        run: dir "${{ env.DOTNET_ROOT}}"
+
       - name: Build with dotnet
         run: dotnet build --configuration Release
 
       - name: List files in deployment directory
-        run: dir ${{ env.DOTNET_ROOT}}
+        run: dir "${{ env.DOTNET_ROOT}}"
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
