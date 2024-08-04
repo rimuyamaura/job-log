@@ -25,7 +25,7 @@ const AddJobApplication = ({
         color='primary'
         size='large'
         sx={{
-          zIndex: 9999,
+          zIndex: 100,
           height: { xs: 60, sm: 80 },
           width: { xs: 150, sm: 200 },
           position: 'fixed',

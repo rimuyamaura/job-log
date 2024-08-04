@@ -94,7 +94,15 @@ const JobApplicationModal = ({
 
   return (
     <>
-      <Dialog open={open} onClose={onClose}>
+      <Dialog
+        open={open}
+        onClose={onClose}
+        sx={{
+          '& .MuiDialog-paper': {
+            zIndex: 2000,
+          },
+        }}
+      >
         <DialogTitle>
           {application ? 'Edit Job Application' : 'Add Job Application'}
         </DialogTitle>
@@ -183,7 +191,7 @@ const JobApplicationModal = ({
               </Button>
             )}
           </Box>
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button onClick={onClose} variant='contained' color='secondary'>
               Cancel
             </Button>

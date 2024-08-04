@@ -52,7 +52,15 @@ const AddJobApplicationModal = ({
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog
+      open={open}
+      onClose={onClose}
+      sx={{
+        '& .MuiDialog-paper': {
+          zIndex: 2000,
+        },
+      }}
+    >
       <DialogTitle>{'Add Job Application'}</DialogTitle>
       <DialogContent>
         <Box component='form' sx={{ mt: 2 }}>
@@ -121,7 +129,7 @@ const AddJobApplicationModal = ({
           />
         </Box>
       </DialogContent>
-      <DialogActions sx={{ mb: 2, mx: 2 }}>
+      <DialogActions sx={{ mb: 2, mx: { xs: 0, sm: 2 } }}>
         <Button
           onClick={handleSave}
           variant='contained'
