@@ -46,7 +46,7 @@ jobs:
           name: .net-app
     
       - name: List files in deployment directory
-        run: dir ${{ github.workspace }}/.net-app
+        run: dir ${{ github.workspace }}
       
       - name: Login to Azure
         uses: azure/login@v2
