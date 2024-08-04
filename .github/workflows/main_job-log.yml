@@ -18,6 +18,8 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     environment: dev
+    permissions:
+      id-token: write #This is required for requesting the JWT
     steps:
 
       - uses: actions/checkout@v3
@@ -45,3 +47,4 @@ jobs:
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/myapp'
+
