@@ -37,21 +37,21 @@ Initialize .env file with following properties tailored to your setup
 ```sh
 # /job-log.Server/.env
 
-CONNECTION_STRING=YOUR_CONNECTION_STRING
-JWT_SECRET=YOUR_JWT_SECRET
-JWT_ISSUER=YOUR_JWT_ISSUER
-JWT_AUDIENCE=YOUR_JWT_AUDIENCE
+CONNECTION_STRING=YOUR_DB_CONNECTION_STRING
+JWT_SECRET=YOUR_JWT_SECRET_STRING
+JWT_ISSUER=YOUR_JWT_ISSUER_ADDRESS_URL
+JWT_AUDIENCE=YOUR_JWT_AUDIENCE_URL
 
 ```
 
-In frontend, configure HOST_API in axiosInstance.ts
+In frontend, configure HOST_API (same as JWT_ISSUER) in axiosInstance.ts
 
 ```sh
 # /job-log.client/src/features/axiosInstance.ts
 
 import axios from 'axios';
 
-const HOST_API = 'JWT_AUDIENCE';
+const HOST_API = 'YOUR_HOST_API_URL';
 
 const axiosInstance = axios.create({
   baseURL: HOST_API,

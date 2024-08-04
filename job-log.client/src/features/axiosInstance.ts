@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const HOST_API = 'https://https://job-log-fndaada8cth3f8bh.australiacentral-01.azurewebsites.net/api';
+const HOST_API =
+  'https://job-log-fndaada8cth3f8bh.australiacentral-01.azurewebsites.net/api';
 
 const axiosInstance = axios.create({
   baseURL: HOST_API,
